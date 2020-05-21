@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:100,300,400,600" rel="stylesheet" type="text/css">
+        <link href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css">
+        <link type="text/css" rel="stylesheet" href="style.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script> 
+            let arrLang = {
+                en: {
+                    'name': 'myBudget',
+                    'budget_title': 'Available Budget in', 
+                    'income' : 'INCOME',
+                    'expenses' : 'EXPENSES',
+                    'description' : 'Add a description',
+                    'value': 'Value'
+                },
+
+                ch: {
+                    'name': '收支账本',
+                    'budget_title': '本日预算', 
+                    'income' : '收入',
+                    'expenses' : '支出',
+                    'description' : '添加用途',
+                    'value': '金额'
+                },
+
+                fr: {
+                    'name': 'mon budget',
+                    'budget_title': 'Available Budget pour', 
+                    'income' : 'Le revenu',
+                    'expenses' : 'Les dépenses',
+                    'description' : 'Ajouter une description',
+                    'value': 'Valeur'
+                },
+
+                jap: {
+                    'name': '私の元帳', 
+                    'budget_title': '今日の予算', 
+                    'income' : '所得',
+                    'expenses' : '支出',
+                    'description' : '説明',
+                    'value': '額'
+                },
+            }
+
+            $(function updateLang() {
+                let lang = localStorage.getItem('language');
+                selectedLang = lang; 
+                changeLanguage(lang);
+        
+
+                $('.language').click(function(){ 
+                    lang = $(this).attr('id');
+                    localStorage.setItem('language', lang);
+                    changeLanguage(lang);
+                });
+
+                function changeLanguage(lang){
+                    if(lang == "fr"){
+                        $('#placeholder-desc-box').attr('placeholder', 'Ajouter une description'); 
+                        $('#placeholder-number-box').attr('placeholder', 'Valeur');  
+                        document.title = '📝mon budget';
+                    }else if(lang == "en"){
+                        $('#placeholder-desc-box').attr('placeholder', 'Add a description'); 
+                        $('#placeholder-number-box').attr('placeholder', 'Value'); 
+                        document.title = '📝My Budget';
+                    }else if(lang == "ch"){
+                        $('#placeholder-desc-box').attr('placeholder', '说明'); 
+                        $('#placeholder-number-box').attr('placeholder', '金额'); 
+                        document.title = '📝我的账本';
+                    }else{
+                        //jap 
+                        $('#placeholder-desc-box').attr('placeholder', '説明'); 
+                        $('#placeholder-number-box').attr('placeholder', '量'); 
+                        document.title = '📝私の元帳';
+                    }
+                   
+                    $('.lang').each(function(index,element){
+                        $(this).text(arrLang[lang][$(this).attr('key')]);
+                    }); 
+                }
+            });
+        </script>
+        <title class="title" id="site-title">📝MyBudget</title>
+    </head>
+
+    <body>
+        <div class="top">
+            <div class="container-fluid">
+            <button class="language" id="en"> English </button> 
+            <button class="language" id="ch"> 中文 </button>
+            <button class="language" id="fr"> French </button>
+            <button class="language" id="jap"> 日本語 </button>
+
+            <div class="budget">
+                <div class="budget__title">
+                    <div>
+                    <p class="lang" key="budget_title"></p>
+                    </div>
+                     <span class="budget__title--month"></span>:
+                </div>
+                
+                <div class="budget__value">+ 2,345.64</div>
+                <div class="budget__income clearfix">
+                    <div class="budget__income--text">
+                        <div class="lang" key="income"></div>
+                    </div>
+                    <div class="right">
+                        <div class="budget__income--value">+ 4,300.00</div>
+                        <div class="budget__income--percentage">&nbsp;</div>
+                    </div>
+                </div>
+               
+                <div class="budget__expenses clearfix">
+                    <div class="budget__expenses--text">
+                        <div class="lang" key="expenses"></div>
+                    </div>
+                    <div class="right clearfix">
+                        <div class="budget__expenses--value">- 1,954.36</div>
+                        <div class="budget__expenses--percentage">45%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div class="bottom">
+            <div class="add">
+                <div class="add__container">
+                    <select class="add__type">
+                        <option value="inc" selected>+</option>
+                        <option value="exp">-</option>
+                    </select>
+                    <input type="text" class="add__description" id="placeholder-desc-box" placeholder="Add a description">
+                    <input type="number" class="add__value" id="placeholder-number-box" placeholder="Value">
+                    <button class="add__btn"><i class="ion-ios-checkmark-outline"></i></button>
+                </div>
+            </div>
+            <div class="container clearfix">
+                <div class="income">
+                    <h2 class="icome__title"> 
+                        <p class="lang" key="income"></p>
+                    </h2>
+                    <div class="income__list">
+                        <!--
+                        //uncomment for an example 
+                        <div class="item clearfix" id="income-0">
+                            <div class="item__description">Salary</div>
+                            <div class="right clearfix">
+                                <div class="item__value">+ 2,100.00</div>
+                                <div class="item__delete">
+                                    <button class="item__delete--btn">
+                                        <i class="ion-ios-close-outline"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item clearfix" id="income-1">
+                            <div class="item__description">Sold car</div>
+                            <div class="right clearfix">
+                                <div class="item__value">+ 1,500.00</div>
+                                <div class="item__delete">
+                                    <button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                </div>
+                <div class="expenses">
+                    <h2 class="expenses__title">
+                        <p class="lang" key="expenses"></p>
+                    </h2>
+                    <div class="expenses__list">
+                        <!--
+                        //uncomment for an example 
+                        <div class="item clearfix" id="expense-0">
+                            <div class="item__description">Apartment rent</div>
+                            <div class="right clearfix">
+                                <div class="item__value">- 900.00</div>
+                                <div class="item__percentage">21%</div>
+                                <div class="item__delete">
+                                    <button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item clearfix" id="expense-1">
+                            <div class="item__description">Grocery shopping</div>
+                            <div class="right clearfix">
+                                <div class="item__value">- 435.28</div>
+                                <div class="item__percentage">10%</div>
+                                <div class="item__delete">
+                                    <button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                </div>
+            </div>
+        </div> 
+        <script src="app.js"></script>
+    </body>
+</html>
